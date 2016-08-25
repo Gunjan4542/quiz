@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css"> ol>li{ padding: 10px 10px; word-wrap: break-word;} 
+.syntax { color: #4468F7; font-weight: bold; font-family: Consolas; }
+</style>
+<div style='box-shadow: 1px 0px 10px black; margin: 20px auto; width: 80%; padding: 10px 10px; '>
+<h1 style='background-color: #242323; color: white; display: inline; border-radius: 5px;
+padding: 5px 5px;margin-top: 2px;'>Installation </h1>
+<hr />
+<b>Steps : </b>
+<ol style='padding-left: 20px; '>
+	<li>Create a database and name it as "quiz" in phpmyadmin. You can give any name to this database. After that open "connection.php" file of this project and then edit the <span class='syntax'>$server_name,$user_id,$password. and $database_name </span> to desired values.</li>
+	<li>Next , import two files <strong>"questions.sql"</strong> and <strong>"users.sql"</strong> located in <strong>"tables"</strong> directory of this project to your newly created "quiz" database </li>
+	<li>Now You are done. go to "admin.php" page to open admin panel where you can add questions. Please add atleast 10 question using admin panel otherwise you will see an error called <strong style='color: red'>"undefined index"</strong> in the main contest page because that contest is programmed in a such way that it has 10 questions.You can edit number of question in <strong>"quiz.php"</strong> file.Also you can set number of attempts to prevent further login using the <strong class='syntax'>"attempt"</strong> field of <strong class='syntax'>"users"</strong> table. </li>
+	<li> By default the contest time is 10 min. You can change this time. To change the contest duration, edit the variable <span class="syntax">m</span> in <strong>"scripts.js"</strong> file to desired time in minutes. Also find the variable <span class="syntax">time_in_second</span> in <strong>"quiz.php"</strong> file and add the total contest time in seconds.Clear your browser cookies and cache after this and Enjoy!!!
+	</li>
+</ol>
+</div>
+</head>
+</html>
