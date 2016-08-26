@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <?php
+session_name("techc");
 session_start();
 require_once "connection.php";
 if(isset($_SESSION['uid']))

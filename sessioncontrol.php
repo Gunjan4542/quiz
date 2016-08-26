@@ -1,15 +1,9 @@
 <?php
+session_name("techc");
 session_start();
 require_once "connection.php";
 if(isset($_POST['set_active']))
 {
-	/* $list=array(array("Who is the creator of C Language?","Bjarne Stroustrup","Dennis Ritche","Bill Gates","Roger Von Hussy",2),
-		array("Who is the creator of C++ Language?","Bjarne Stroustrup","Dennis Ritche","Bill Gates","Roger Von Hussy",1),
-		array("Which one of this is a functional programming language?","C++","JAVA","Python","Huskell",4),
-		array("Who is one of the founder of Apple?","William Gates","Mark Zuckerberg","steve wozniak","Andre Pulton",3),
-		array("Who is the creator of JAVA","James Gosling","Dennis Ritchie","Bill Gates","Andrew Gill",1)
-
-		); */
 	$_SESSION['list']=array();
 	$query=mysqli_query($con,"SELECT question,op1,op2,op3,op4,correct FROM questions ORDER BY rand() LIMIT 10");
 	while($arr=mysqli_fetch_array($query))

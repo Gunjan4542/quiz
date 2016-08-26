@@ -17,6 +17,7 @@ require_once "connection.php";
 <td class="table-header">Score</td>
 </tr>
 <?php
+session_name("techc");
 session_start();
 $query=mysqli_query($con,"SELECT uid,name,year,score FROM users ORDER BY score DESC");
 $i=1;

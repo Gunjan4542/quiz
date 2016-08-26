@@ -2,6 +2,7 @@
 <html>
 <?php
 require_once "connection.php";
+session_name("techc");
 session_start();
 if(isset($_POST['logout'])){
 	session_destroy(); 
@@ -36,9 +37,11 @@ if(!isset($_SESSION['uid']))
 .panelcurrent
 {
   background-color: #77F38C;
+  word-wrap: break-word;
 }
 .un
-{	background-color: #f2dede; }
+{	background-color: #f2dede;
+word-wrap: break-word; }
     </style>
 
 </head>
@@ -60,7 +63,7 @@ $(function(){
 		$score=0;
 		$_SESSION['active']="done";
 		echo "<div class='panel-warning' style='box-shadow: 1px 0px 10px gray;
-		margin-top: 50px; margin-left: 30px; float: left;'>";
+		 margin : 100px auto; width: 650px; '>";
 		echo "<span class='panel-close'>X</span>";
 		$_SESSION['flag']++;
 
@@ -131,7 +134,7 @@ overflow: scroll; overflow-x:hidden; " >
 <br />
 <?php
 	for($i=0;$i<30;$i++)
-		echo "<a href=#$i class='jump_me'><span style='display: inline-block; width: 21px; height: 21px; margin-top: 5px;padding: 5px 4px; border-radius: 50%; border: 1px solid lightgray; box-shadow: 1px 0px 4px gray; margin-left: 3px; margin-right: 3px; cursor: pointer;'>".($i+1)."</span></a>";
+		echo "<a href=#$i class='jump_me'><span style='display: inline-block; width: 21px; height: 21px; margin-top: 5px;padding: 5px 4px; border-radius: 50%; border: 1px solid lightgray; box-shadow: 0px 0px 5px gray; margin-left: 3px; margin-right: 3px; cursor: pointer;'>".($i+1)."</span></a>";
 ?>
 <button type="button" class="btn-success fulldock" style="box-shadow: none;" onclick="$('#ready_submit').click();">STATUS</button>
 </div>
