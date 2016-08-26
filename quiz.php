@@ -33,25 +33,24 @@ if(!isset($_SESSION['uid']))
 {
   background-color: #defefa;;
 }
+.panelcurrent
+{
+  background-color: #77F38C;
+}
+.un
+{	background-color: #f2dede; }
     </style>
+
 </head>
 <body>
 <?php
-
-	/* $list=array(array("Who is the creator of C Language?","Bjarne Stroustrup","Dennis Ritche","Bill Gates","Roger Von Hussy",2),
-		array("Who is the creator of C++ Language?","Bjarne Stroustrup","Dennis Ritche","Bill Gates","Roger Von Hussy",1),
-		array("Which one of this is a functional programming language?","C++","JAVA","Python","Huskell",4),
-		array("Who is one of the founder of Apple?","William Gates","Mark Zuckerberg","steve wozniak","Andre Pulton",3),
-		array("Who is the creator of JAVA","James Gosling","Dennis Ritchie","Bill Gates","Andrew Gill",1)
-
-		); */
 	if(isset($_POST['submit']))
 	{
 		?>
 <script>
 $(function(){
 
-		$('#start').attr('disabled','disable');
+	$('#start').attr('disabled','disable');
 	$('#start').removeClass("btn-success");
 	$('#start').addClass("btn-default");
 	$("#main").hide();
@@ -125,14 +124,17 @@ logout</button>
 		 <h2>SCORE: <span id="score">0pts </span></h2> 
 		
 		</div>  -->
-<div style="border-radius: 10px; border: 1px solid lightgray; box-shadow: 0px 2px 1px gray; height: 300px;
-overflow: scroll; overflow-x:hidden; display: none;" id="jump">
+<div id="jump" style="display: none;">
+<div style="border-radius: 10px; border: 1px solid lightgray; box-shadow: 0px 2px 1px gray; height: 360px;
+overflow: scroll; overflow-x:hidden; " >
 <b>Jump To Question : </b>
 <br />
 <?php
 	for($i=0;$i<30;$i++)
-		echo "<a href=#$i><span style='display: inline-block; width: 21px; height: 21px; margin-top: 5px;padding: 5px 4px; border-radius: 50%; border: 1px solid lightgray; box-shadow: 1px 0px 4px gray; margin-left: 3px; margin-right: 3px; cursor: pointer;'>$i</span></a>";
+		echo "<a href=#$i class='jump_me'><span style='display: inline-block; width: 21px; height: 21px; margin-top: 5px;padding: 5px 4px; border-radius: 50%; border: 1px solid lightgray; box-shadow: 1px 0px 4px gray; margin-left: 3px; margin-right: 3px; cursor: pointer;'>".($i+1)."</span></a>";
 ?>
+<button type="button" class="btn-success fulldock" style="box-shadow: none;" onclick="$('#ready_submit').click();">STATUS</button>
+</div>
 </div>
 </div>
 <div class="popup" id="over" style="z-index: 99;">
@@ -151,13 +153,14 @@ overflow: scroll; overflow-x:hidden; display: none;" id="jump">
             </div>
   </div>
 </div>
+
 <form method="post" action="quiz.php">
 <?php
 $prefix="question";
 echo "<div id='main' class='tabcontent' style='box-shadow: 1px 0px 10px gray;margin-top: 50px; max-width: 900px; margin-bottom: 30px; display: none;'>";
 echo "<div id='page1' class='page'>";
 echo "<h1>Page 1</h1>";
-for($i=0;$i<5;$i++)
+for($i=0;$i<10;$i++)
 {
 	$name=$i;
 	echo "<div class='panel-flat' style='float: none; display: block; margin-top: 10px; margin-left: 10px; box-shadow: none;' id=$i>";
@@ -172,22 +175,22 @@ for($i=0;$i<5;$i++)
 }
 echo "</div>";
 /* ---------------- page 2 */
-echo "<div id='page2' class='page' style='display: none;'>";
-echo "<h1> Page 2</h1>";
-for($i=5;$i<10;$i++)
-{
-	$name=$i;
-	echo "<div class='panel-flat' style='float: none; display: block; margin-top: 10px; margin-left: 10px; box-shadow: none;'>";
-	echo "<b>". ($i+1).") ".$_SESSION['list'][$i][0]." </b><br/ >";
-	echo "<input type=radio name=$name value=1> ".$_SESSION['list'][$i][1];
-	echo "<br /><input type=radio name=$name value=2> ".$_SESSION['list'][$i][2];
-	echo "<br /><input type=radio name=$name value=3> ".$_SESSION['list'][$i][3];
-	echo "<br /><input type=radio name=$name value=4> ".$_SESSION['list'][$i][4];
-	echo "<button class='reddish undo' type='button' data-clear=$name>UNDO</button>";
-	echo "</div>";
+// echo "<div id='page2' class='page' style='display: none;'>";
+// echo "<h1> Page 2</h1>";
+// for($i=5;$i<10;$i++)
+// {
+// 	$name=$i;
+// 	echo "<div class='panel-flat' style='float: none; display: block; margin-top: 10px; margin-left: 10px; box-shadow: none;' id=$i>";
+// 	echo "<b>". ($i+1).") ".$_SESSION['list'][$i][0]." </b><br/ >";
+// 	echo "<input type=radio name=$name value=1> ".$_SESSION['list'][$i][1];
+// 	echo "<br /><input type=radio name=$name value=2> ".$_SESSION['list'][$i][2];
+// 	echo "<br /><input type=radio name=$name value=3> ".$_SESSION['list'][$i][3];
+// 	echo "<br /><input type=radio name=$name value=4> ".$_SESSION['list'][$i][4];
+// 	echo "<button class='reddish undo' type='button' data-clear=$name>UNDO</button>";
+// 	echo "</div>";
 
-}
-echo "</div>";
+// }
+// echo "</div>";
 
 
 /*---------- */
@@ -251,6 +254,12 @@ echo "</div>";
     	});
 
 		});
+		$('.jump_me').on("click",function(){ 
+			$('#main .panel-flat').removeClass('panelcurrent');
+			$('#main .panel-flat').removeClass('un');
+			var id=$(this).attr('href');
+			$(id).addClass('panelcurrent');
+		});
 		$('.pageno').click(function(){
 			$('#page1').hide();
 			$('#page2').hide();
@@ -281,7 +290,7 @@ echo "</div>";
 			}
 			$(":radio:checked").each(function(){
 				var no=parseInt($(this).attr("name"))+1;
-  				$('#submission_status').append("<span style='display: inline-block; width: 17px; height: 17px; margin-top: 5px;padding: 3px 4px; border-radius: 50%; border: 1px solid lightgray;'>"+no+"</span>,");
+  				$('#submission_status').append("<a href=#"+(no-1)+" <span style='display: inline-block; width: 17px; height: 17px; margin-top: 5px;padding: 3px 4px; border-radius: 50%; border: 1px solid lightgray;'>"+no+"</span></a>,");
   				arr[no-1]=true;
 			});
 			$('#submission_status').append("<br /><b>Not Attempted : </b>");
@@ -289,11 +298,11 @@ echo "</div>";
 			{
 				if(!arr[i])
 				{
-					$('#submission_status').append("<span style='display: inline-block; width: 17px; height: 17px; margin-top: 5px;padding: 3px 4px; border-radius: 50%; border: 1px solid lightgray;'>"+(i+1)+"</span>,");
-					$("input[name="+i+"]").parent().css('background-color','#f2dede;');
+					$("input[name="+i+"]").parent().addClass('un');
+					$('#submission_status').append("<a href=#"+i+"><span style='display: inline-block; width: 17px; height: 17px; margin-top: 5px;padding: 3px 4px; border-radius: 50%; border: 1px solid lightgray;'>"+(i+1)+"</span></a>,");
 				}
 				else 
-					$("input[name="+i+"]").parent().css('background-color','#E9E4E1;');
+					$("input[name="+i+"]").parent().removeClass('un');
 			}
 		});
 	});
