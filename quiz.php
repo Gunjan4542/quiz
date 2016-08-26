@@ -9,7 +9,6 @@ if(isset($_POST['logout'])){
 }
 if(!isset($_SESSION['uid']))
 	header('Location: index.php');
-
 ?>
 
 <head>
@@ -60,7 +59,6 @@ $(function(){
 </script>
 <?php
 		$score=0;
-		
 		$_SESSION['active']="done";
 		echo "<div class='panel-warning' style='box-shadow: 1px 0px 10px gray;
 		margin-top: 50px; margin-left: 30px; float: left;'>";
@@ -91,6 +89,7 @@ $(function(){
 		}
 		$id=$_SESSION['uid'];
 		mysqli_query($con,"UPDATE users SET score='$score' WHERE uid='$id'");
+		mysqli_query($con,"UPDATE users SET attempt='1' WHERE uid='$id'");
 		echo "<h1 style='color: green;'>Your Score is : $score/20 </h1>";
 		echo "</div>";
 		
@@ -126,7 +125,15 @@ logout</button>
 		 <h2>SCORE: <span id="score">0pts </span></h2> 
 		
 		</div>  -->
-
+<div style="border-radius: 10px; border: 1px solid lightgray; box-shadow: 0px 2px 1px gray; height: 300px;
+overflow: scroll; overflow-x:hidden; display: none;" id="jump">
+<b>Jump To Question : </b>
+<br />
+<?php
+	for($i=0;$i<30;$i++)
+		echo "<span style='display: inline-block; width: 21px; height: 21px; margin-top: 5px;padding: 5px 4px; border-radius: 50%; border: 1px solid lightgray; box-shadow: 1px 0px 4px gray; margin-left: 3px; margin-right: 3px; cursor: pointer;'>$i</span>";
+?>
+</div>
 </div>
 <div class="popup" id="over" style="z-index: 99;">
  <div class="popup-content" style="margin-top: 5%; max-width: 400px;" tabindex="0">
@@ -229,6 +236,7 @@ echo "</div>";
 		    $(this).addClass("btn-default");
 		    $('#start').css('box-shadow','none');
 		    $('#main').slideDown();
+		    $('#jump').show();
 		    $.post("sessioncontrol.php",{set_active: "Active"},function(data){
 		    	
 		    });
@@ -298,6 +306,7 @@ echo "</div>";
 ?>
 <script>
 $('#main').slideDown('slow');
+$('#jump').show();
 $.post("sessioncontrol.php",{gettime: "Active"},function(data){
 				var time_in_second=600; // add your desired time in seconds
 				var time=time_in_second-data;
