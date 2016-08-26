@@ -104,7 +104,7 @@ $(function(){
 						current.css('box-shadow','none');
 						c++;
 						$('#counter').html(c);
-						$('#total').html(parseInt($('#total').html())+c);
+						$('#total').html(parseInt($('#total').html())+1);
 					}
 
 				});
@@ -135,7 +135,7 @@ $(function(){
 				current.css('box-shadow','none');
 				c++;
 				$('#counter').html(c);
-				$('#total').html(parseInt($('#total').html())+c);
+				$('#total').html(parseInt($('#total').html())+1);
 			}
 		});	
 });
