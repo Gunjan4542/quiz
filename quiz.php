@@ -266,10 +266,22 @@ echo "</div>";
 		 //   		$('#submission_status').append(value+"<br />");
 			// });
 			var i=1;
+			var arr=[];
+			for(var i=0;i<10;i++)
+			{
+				arr.push(false);
+			}
 			$(":radio:checked").each(function(){
 				var no=parseInt($(this).attr("name"))+1;
   				$('#submission_status').append("<span style='display: inline-block; width: 17px; height: 17px; margin-top: 5px;padding: 3px 4px; border-radius: 50%; border: 1px solid lightgray;'>"+no+"</span>,");
+  				arr[no-1]=true;
 			});
+			$('#submission_status').append("<br /><b>Not Attempted : </b>");
+			for(var i=0;i<10;i++)
+			{
+				if(!arr[i])
+					$('#submission_status').append("<span style='display: inline-block; width: 17px; height: 17px; margin-top: 5px;padding: 3px 4px; border-radius: 50%; border: 1px solid lightgray;'>"+(i+1)+"</span>,");
+			}
 		});
 	});
 
