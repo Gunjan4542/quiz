@@ -134,7 +134,7 @@ overflow: scroll; overflow-x:hidden; " >
 <br />
 <?php
 	for($i=0;$i<30;$i++)
-		echo "<a href=#$i class='jump_me'><span style='display: inline-block; width: 21px; height: 21px; margin-top: 5px;padding: 5px 4px; border-radius: 50%; border: 1px solid lightgray; box-shadow: 0px 0px 5px gray; margin-left: 3px; margin-right: 3px; cursor: pointer;'>".($i+1)."</span></a>";
+		echo "<a href=#$i class='jump_me'><span style='display: inline-block; width: 21px; height: 21px; margin-top: 5px;padding: 5px 4px; border-radius: 50%; border: 1px solid lightgray; border: 1px solid lightgray margin-left: 3px; margin-right: 3px; cursor: pointer;'>".($i+1)."</span></a>";
 ?>
 <button type="button" class="btn-success fulldock" style="box-shadow: none;" onclick="$('#ready_submit').click();">STATUS</button>
 </div>
@@ -258,6 +258,8 @@ echo "</div>";
 
 		});
 		$('.jump_me').on("click",function(){ 
+			$('.jump_me').children('span').css('background-color','white');
+			$(this).children('span').css('background-color','#defefa;');
 			$('#main .panel-flat').removeClass('panelcurrent');
 			$('#main .panel-flat').removeClass('un');
 			var id=$(this).attr('href');
