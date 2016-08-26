@@ -131,7 +131,7 @@ overflow: scroll; overflow-x:hidden; display: none;" id="jump">
 <br />
 <?php
 	for($i=0;$i<30;$i++)
-		echo "<span style='display: inline-block; width: 21px; height: 21px; margin-top: 5px;padding: 5px 4px; border-radius: 50%; border: 1px solid lightgray; box-shadow: 1px 0px 4px gray; margin-left: 3px; margin-right: 3px; cursor: pointer;'>$i</span>";
+		echo "<a href=#$i><span style='display: inline-block; width: 21px; height: 21px; margin-top: 5px;padding: 5px 4px; border-radius: 50%; border: 1px solid lightgray; box-shadow: 1px 0px 4px gray; margin-left: 3px; margin-right: 3px; cursor: pointer;'>$i</span></a>";
 ?>
 </div>
 </div>
@@ -160,10 +160,10 @@ echo "<h1>Page 1</h1>";
 for($i=0;$i<5;$i++)
 {
 	$name=$i;
-	echo "<div class='panel-flat' style='float: none; display: block; margin-top: 10px; margin-left: 10px; box-shadow: none;'>";
+	echo "<div class='panel-flat' style='float: none; display: block; margin-top: 10px; margin-left: 10px; box-shadow: none;' id=$i>";
 	echo "<b>". ($i+1).") ".$_SESSION['list'][$i][0]." </b><br/ >";
 	echo "<input type=radio name=$name value=1 > ".$_SESSION['list'][$i][1];
-	echo "<br /><input type=radio name=$name value=2 > ".$_SESSION['list'][$i][2];
+	echo "<br /><input type=radio name=$name value=2> ".$_SESSION['list'][$i][2];
 	echo "<br /><input type=radio name=$name value=3 > ".$_SESSION['list'][$i][3];
 	echo "<br /><input type=radio name=$name value=4 > ".$_SESSION['list'][$i][4];
 	echo "<button class='reddish undo' type='button' data-clear=$name>UNDO</button>";
@@ -334,7 +334,6 @@ $(function(){
 	$('#over').show();
 	$("#main").hide();
 	$("#time").html("DONE");
-
 });
 
 </script>
