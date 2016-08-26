@@ -227,6 +227,15 @@ box-shadow: 1px 0px 10px 1px #191970 inset; float: right;"
 	color: #8A6D3B;
 	word-wrap: break-word;
 }
+.panel-danger
+{
+  border-radius: 6px;
+  border: 2px solid #FAEBCC;
+  padding-bottom: 5px;
+  color: #a94442;
+  background-color: #f2dede;
+  word-wrap: break-word;
+}
 .panel-transparent
 {
 	border-radius: 6px; box-shadow: 2px 2px 14px black;

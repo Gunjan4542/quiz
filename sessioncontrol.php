@@ -37,9 +37,9 @@ if(isset($_POST['addproblem']))
 	if(empty($question) or empty($op1) or empty($op2) or empty($op3) or empty($op4))
 		die("Please Fill All the fields");
 	if(mysqli_query($con,"INSERT INTO questions(question, op1, op2,op3,op4,correct) VALUES('$question','$op1','$op2','$op3','$op4','$correct')"))
-		echo "Problem Added";
+		echo "<b style='color: green; '>Problem Added</b>";
 	else
-		echo "Unable to add problem";
+		echo "<b style='color: #a94442;'>Unable to add problem </b>";
 }
 
 ?>
