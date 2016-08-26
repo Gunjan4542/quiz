@@ -280,7 +280,10 @@ echo "</div>";
 			for(var i=0;i<10;i++)
 			{
 				if(!arr[i])
+				{
 					$('#submission_status').append("<span style='display: inline-block; width: 17px; height: 17px; margin-top: 5px;padding: 3px 4px; border-radius: 50%; border: 1px solid lightgray;'>"+(i+1)+"</span>,");
+					$("input[name="+i+"]").parent().css('background-color','#f2dede;');
+				}
 			}
 		});
 	});
