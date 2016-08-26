@@ -98,6 +98,7 @@ button:hover, input[type="button"]:hover
 .btn-normal.active {
   background-color: #004099 \9;
 }
+
 .classic:hover{
 	/*background-color: lightgray;
 	color: #333;*/
