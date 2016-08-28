@@ -2,9 +2,12 @@
 <html>
 <?php
 require_once "connection.php";
+$no_of_problems=13;
 session_name("techc");
 session_start();
 if(isset($_POST['logout'])){
+	$uid=$_SESSION['uid'];
+	mysqli_query($con,"UPDATE users SET active='0' WHERE uid='$uid'");
 	session_destroy(); 
 	header('Location: index.php');
 }
@@ -52,7 +55,8 @@ word-wrap: break-word; }
 		?>
 <script>
 $(function(){
-
+	$('.logmeOut').removeAttr('disabled','disabled');
+	$('.logmeOut').removeClass('btn-default');
 	$('#start').attr('disabled','disable');
 	$('#start').removeClass("btn-success");
 	$('#start').addClass("btn-default");
@@ -67,7 +71,7 @@ $(function(){
 		echo "<span class='panel-close'>X</span>";
 		$_SESSION['flag']++;
 
-		for($i=0;$i<10;$i++)
+		for($i=0;$i<$no_of_problems;$i++)
 		{
 			$no=$i;
 			if(isset($_POST[$no]))
@@ -104,13 +108,13 @@ $(function(){
 		<b style="font-family: arial; font-size: 24px;"> <?php echo $_SESSION['uid']; ?> </b>
 </center>
 <form method="post" action="quiz.php">
-<button type="submit" name="logout" class="btn-flat-blue fulldock" style="padding: 5px 5px; box-shadow: none;">
+<button type="submit" name="logout" class="logmeOut btn-flat-blue fulldock" onclick="localStorage.clear();" style="padding: 5px 5px; box-shadow: none;">
 <img src="extra/logout.png" style="height: 20px; width: 20px;">
 logout</button>
-<br /> <br />
+<br /> 
 </form>
 </div>
-<br /><br />
+<br />
 <div class="panel-light" style="background-color: white; box-shadow: none; color: black; border: none;" >
 		<div style="border-radius: 10px; border: 1px solid lightgray; box-shadow: 0px 2px 1px gray;">
 		<center>
@@ -127,9 +131,9 @@ logout</button>
 		 <h2>SCORE: <span id="score">0pts </span></h2> 
 		
 		</div>  -->
-<div id="jump" style="display: none;">
+<div id="jump" style="display: none; overflow: scroll;">
 <div style="border-radius: 10px; border: 1px solid lightgray; box-shadow: 0px 2px 1px gray; height: 360px;
-overflow: scroll; overflow-x:hidden; " >
+ " >
 <b>Jump To Question : </b>
 <br />
 <?php
@@ -163,15 +167,15 @@ $prefix="question";
 echo "<div id='main' class='tabcontent' style='box-shadow: 1px 0px 10px gray;margin-top: 50px; max-width: 900px; margin-bottom: 30px; display: none;'>";
 echo "<div id='page1' class='page'>";
 echo "<h1>Page 1</h1>";
-for($i=0;$i<10;$i++)
+for($i=0;$i<$no_of_problems;$i++)
 {
 	$name=$i;
 	echo "<div class='panel-flat' style='float: none; display: block; margin-top: 10px; margin-left: 10px; box-shadow: none;' id=$i>";
 	echo "<b>". ($i+1).") ".$_SESSION['list'][$i][0]." </b><br/ >";
-	echo "<input type=radio name=$name value=1 > ".$_SESSION['list'][$i][1];
-	echo "<br /><input type=radio name=$name value=2> ".$_SESSION['list'][$i][2];
-	echo "<br /><input type=radio name=$name value=3 > ".$_SESSION['list'][$i][3];
-	echo "<br /><input type=radio name=$name value=4 > ".$_SESSION['list'][$i][4];
+	echo "<input type=radio name=$name value=1 class='opt1'> ".$_SESSION['list'][$i][1];
+	echo "<br /><input type=radio name=$name value=2 class='opt2'> ".$_SESSION['list'][$i][2];
+	echo "<br /><input type=radio name=$name value=3 class='opt3'> ".$_SESSION['list'][$i][3];
+	echo "<br /><input type=radio name=$name value=4 class='opt4'> ".$_SESSION['list'][$i][4];
 	echo "<button class='reddish undo' type='button' data-clear=$name>UNDO</button>";
 	echo "</div>";
 
@@ -238,6 +242,9 @@ echo "</div>";
 	$(function(){
 		$('#start').click(function(){
 		    $(this).attr('disabled','disabled');
+		    $('.logmeOut').attr('disabled','disabled');
+			$('.logmeOut').addClass('btn-default');
+			$('.logmeOut').css('box-shadow','none');
 		    $(this).removeClass("btn-success");
 		    $(this).addClass("btn-default");
 		    $('#start').css('box-shadow','none');
@@ -255,7 +262,8 @@ echo "</div>";
         		$(this).removeAttr("checked");
 
     	});
-
+			var id='#'+$(this).parent().attr('id');
+			localStorage[id] = null;
 		});
 		$('.jump_me').on("click",function(){ 
 			$('.jump_me').children('span').css('background-color','white');
@@ -289,18 +297,18 @@ echo "</div>";
 			// });
 			var i=1;
 			var arr=[];
-			for(var i=0;i<10;i++)
+			for(var i=0;i<13;i++)
 			{
 				arr.push(false);
 			}
 			$(":radio:checked").each(function(){
 				var no=parseInt($(this).attr("name"))+1;
-  				$('#submission_status').append("<a href=#"+(no-1)+" <span style='display: inline-block; width: 17px; height: 17px; margin-top: 5px;padding: 3px 4px; border-radius: 50%; border: 1px solid lightgray;'>"+no+"</span></a>,");
+  				$('#submission_status').append("<a class='goto' href=#"+(no-1)+" <span style='display: inline-block; width: 17px; height: 17px; margin-top: 5px;padding: 3px 4px; border-radius: 50%; border: 1px solid lightgray;'>"+no+"</span></a>,");
   				arr[no-1]=true;
 			});
 			$('#submission_status').append("<br /><b>Not Attempted : </b>");
-			for(var i=0;i<10;i++)
-			{
+			for(var i=0;i<13;i++)
+			{ 
 				if(!arr[i])
 				{
 					$("input[name="+i+"]").parent().addClass('un');
@@ -310,6 +318,19 @@ echo "</div>";
 					$("input[name="+i+"]").parent().removeClass('un');
 			}
 		});
+		 $( '#submission_status' ).on( 'click', 'a', function () { 
+		 	$('.panel-flat').css('border','none');
+		 	$($(this).attr('href')).css('border','3px solid green');
+		 });
+		 $(':radio').on('click',function(){
+		 	var id="#"+$(this).parent().attr('id');
+		 	localStorage[id] = $(this).attr('class');
+		 });
+		 for(var i=0;i<13;i++)
+		 {
+		 	var id="#"+i;
+		 	$(id).find("."+localStorage[id]).attr('checked','checked');
+		 }
 	});
 
 </script>
@@ -319,8 +340,12 @@ echo "</div>";
 	{
 ?>
 <script>
-$('#main').slideDown('slow');
+$('#main').show();
 $('#jump').show();
+$('.logmeOut').attr('disabled','disabled');
+$('.logmeOut').addClass('btn-default');
+$('.logmeOut').css('box-shadow','none');
+
 $.post("sessioncontrol.php",{gettime: "Active"},function(data){
 				var time_in_second=600; // add your desired time in seconds
 				var time=time_in_second-data;

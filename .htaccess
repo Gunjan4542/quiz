@@ -1,0 +1,18 @@
+<FilesMatch "admin.php">
+AuthName "Member Only"
+AuthType Basic
+AuthUserFile /opt/lampp/htdocs/quiz/.htpasswd
+require valid-user
+</FilesMatch>
+<FilesMatch "activeUsers.php">
+AuthName "Member Only"
+AuthType Basic
+AuthUserFile /opt/lampp/htdocs/quiz/.htpasswd
+require valid-user
+</FilesMatch> 
+<FilesMatch "edit.php">
+AuthName "Member Only"
+AuthType Basic
+AuthUserFile /opt/lampp/htdocs/quiz/.htpasswd
+require valid-user
+</FilesMatch> 

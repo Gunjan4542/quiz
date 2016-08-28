@@ -17,17 +17,12 @@ if(isset($_POST['login']))
         {
             session_start();
             $_SESSION['uid']=$uid;
-            $_SESSION['problem1']=0;
-            $_SESSION['problem2']=0;
-            $_SESSION['problem3']=0;
-            $_SESSION['flag1']=false;
-            $_SESSION['flag2']=false;
-            $_SESSION['flag3']=false;
             $_SESSION['remaining']=3600; 
             $_SESSION['active']=false;
             $_SESSION['setno']=rand(1,3);
-            //mysqli_query($con,"UPDATE users SET attempt='1' WHERE uid='$uid'");
-            mkdir("submissions/".$uid);           
+            $client_ip=$_SERVER['REMOTE_ADDR'];
+            mysqli_query($con,"UPDATE users SET active='1' WHERE uid='$uid'");
+            mysqli_query($con,"UPDATE users SET ip='$client_ip' WHERE uid='$uid'");         
             header("Location: quiz.php");
         }
         else if($result['attempt']==1)
@@ -44,7 +39,7 @@ if(isset($_POST['register']))
     $year=$_POST['year'];
     $crn=$_POST['crn'];
     $password=md5($_POST['password']);
-    if(mysqli_query($con,"INSERT INTO users values('$uid','$name','$email','$year','$crn','$password',0,0)"))
+    if(mysqli_query($con,"INSERT INTO users values('$uid','$name','$email','$year','$crn','$password',0,0,0,0,'')"))
         echo "<script>alert('Successfully registered!!'); </script>";
     else
         echo "<script>alert('Already registered..'); </script>";
@@ -78,6 +73,7 @@ if(isset($_POST['register']))
     .ip {
         border: 1.5px solid red important;
     }
+    .btn-default { background-color: lightgray; box-shadow: none; padding: 12px 12px; }
     </style>
 </head>
 <body >
@@ -106,7 +102,7 @@ if(isset($_POST['register']))
         </div>
     
 <div class="popup" id="signup">
-        <div class="popup-content" style="margin-top: 5%; max-width: 400px;" tabindex="0">
+        <div class="popup-content" style="margin-top: 5%; max-width: 450px;" tabindex="0">
             <div class="popup-head" style="background-color: #E9E4E1; color: black; border-bottom: 1px solid #A19F9D;">
                 <span class="popup-close"><b>X</b></span>
                 <center><h3>Register For TECH C 2k16</h3></center>
@@ -150,12 +146,17 @@ if(isset($_POST['register']))
                 <input type="text" name="crn" class="input-text" placeholder="Class Roll No" required>
                 </td><td></td></tr>
                 <tr><td>Password</td><td>
-                <input type="password" name="password" class="input-text" placeholder="Password" required>
+                <input type="password" name="password" class="input-text" placeholder="Password" id="pwdd" required>
+                </td><td></td>
+                               <tr><td>
+                    <div style="display: inline-block; position: relative;">
+                    Confirm Password</td><td>
+                <input type="password" name="confirm" class="input-text" id="confirm_password" placeholder="Confirm Password" required>
                 </td><td></td>
                 </tr>
 
                 </table>
-                <button type="submit" name="register" class="btn-flat-success">REGISTER</button>
+                <button type="submit" name="register" class="btn-flat-success" id="register_btn">REGISTER</button>
                 <button type="button" class="btn-flat-danger" data-close="#signup">CLOSE</button>
                 </center>
                 
@@ -177,7 +178,54 @@ $('#uid').blur(function(){
         $('#exist').html(data);
     });
 });
-
+$(document).on('keydown', '#confirm_password', function(e) {
+    if (e.keyCode == 32) return false;
+});
+$(document).on('keydown', 'input[type=password]', function(e) {
+    if (e.keyCode == 32) return false;
+});
+$('#confirm_password').on('keyup',function(){
+        var x=$(this).val();
+        var y=$("#pwdd").val();
+        if(x==y)
+        {
+            $('#register_btn').removeAttr('disabled','disabled');
+            $('#register_btn').removeClass('btn-default');
+        }
+        else
+        {
+            $('#register_btn').attr('disabled','disabled');
+            $('#register_btn').addClass('btn-default');
+        }
+        });
+$('#confirm_password').blur(function(){ 
+    var x=$(this).val();
+        var y=$("#pwdd").val();
+        if(x==y)
+        {
+            $('#register_btn').removeAttr('disabled','disabled');
+            $('#register_btn').removeClass('btn-default');
+        }
+        else
+        {
+            $('#register_btn').attr('disabled','disabled');
+            $('#register_btn').addClass('btn-default');
+        }
+});
+$('#pwdd').blur(function(){ 
+    var x=$(this).val();
+        var y=$("#confirm_password").val();
+        if(x==y)
+        {
+            $('#register_btn').removeAttr('disabled','disabled');
+            $('#register_btn').removeClass('btn-default');
+        }
+        else
+        {
+            $('#register_btn').attr('disabled','disabled');
+            $('#register_btn').addClass('btn-default');
+        }
+});
 });
 
 </script>

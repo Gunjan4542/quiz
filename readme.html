@@ -2,7 +2,9 @@
 <html>
 <head>
 <style type="text/css"> ol>li{ padding: 10px 10px; word-wrap: break-word;} 
-.syntax { color: #4468F7; font-weight: bold; font-family: Consolas; }
+.syntax { color: #4468F7; font-weight: bold;  }
+li { font: "Helvetica Neue",Helvetica,Arial,sans-serif;	 }
+strong { font: "Helvetica Neue",Helvetica,Arial,sans-serif;	 }
 </style>
 <div style='box-shadow: 1px 0px 10px black; margin: 20px auto; width: 80%; padding: 10px 10px; '>
 <h1 style='background-color: #242323; color: white; display: inline; border-radius: 5px;
@@ -14,6 +16,8 @@ padding: 5px 5px;margin-top: 2px;'>Installation </h1>
 	<li>Next , import two files <strong>"questions.sql"</strong> and <strong>"users.sql"</strong> located in <strong>"tables"</strong> directory of this project to your newly created "quiz" database </li>
 	<li>Now You are done. go to "admin.php" page to open admin panel where you can add questions. Please add atleast 10 question using admin panel otherwise you will see an error called <strong style='color: red'>"undefined index"</strong> in the main contest page because that contest is programmed in a such way that it has 10 questions.You can edit number of question in <strong>"quiz.php"</strong> file.Also you can set number of attempts to prevent further login using the <strong class='syntax'>"attempt"</strong> field of <strong class='syntax'>"users"</strong> table. </li>
 	<li> By default the contest time is 10 min. You can change this time. To change the contest duration, edit the variable <span class="syntax">m</span> in <strong>"scripts.js"</strong> file to desired time in minutes. Also find the variable <span class="syntax">time_in_second</span> in <strong>"quiz.php"</strong> file and add the total contest time in seconds.Clear your browser cookies and cache after this and Enjoy!!!
+	</li>
+	<li> You can add questions, see active users from admin panel which is in  <span class="syntax">"admin.php"</span> file.But this admin panel is password protected.The default username and password for admin panel is "arpan","password".You can change this by simply going to <strong>".htaccess"</strong> file and add your server directory full path followed by .htpasswd. the file <strong>".htpasswd"</strong> contains username and password in a single line seperated by ":". You can add any number of username and password in this file and each thing should be in a new line like this <strong class='syntax'>username:password_in_md5_hashed_form</strong>
 	</li>
 </ol>
 </div>

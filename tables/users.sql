@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 25, 2016 at 09:02 PM
+-- Generation Time: Aug 28, 2016 at 06:44 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -34,7 +34,10 @@ CREATE TABLE `users` (
   `crn` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
   `attempt` int(11) NOT NULL,
-  `score` int(11) NOT NULL
+  `score` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `start` bigint(20) NOT NULL DEFAULT '0',
+  `ip` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

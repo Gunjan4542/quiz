@@ -13,13 +13,13 @@
 
 	<nav class="main-block-home">
 	<ul>
-	<li><h1 style="text-shadow: 3px 3px 2px gray;">Admin Panel</h1></li>
-	<li class="menu" class='active'>Add Problem</li>
-	<li class="menu dropdown" style="display: inline-block;" tabindex="0">
-	Others>
+	<li style="padding: 0 0; "><h1 class='title' style="text-shadow: 3px 3px 2px gray; height: 100%; margin-top: 7px;">Admin Panel</h1></li>
+	<li class="menu" style='background-color: #464040; box-shadow: 0px -4px #f0ad4e inset;'>Add Problem</li>
+	<li class="menu" onclick="location.href='edit.php';"><a href="edit.php">Show All Questions</li></a>
+	<li class="menu dropdown" style="display: inline-block;" tabindex="0">More Options
 	<div class="dropdown-content" style="top: 37px;">
 	<a href="leaderboard.php">leaderboard</a>
-	<a>Sub Menu</a>
+	<a href="activeUsers.php">Active Users</a>
 	</div>
 	</li>
 	</ul>
@@ -28,18 +28,33 @@
 	.opt
 	{
 		width: 200px;
+	} 
+	.title
+	{
+		font: "Helvetica Neue",Helvetica,Arial,sans-serif;	
+		color: white;
+		display: inline-block;
+		background-color: #383333;
+		border-radius: 8px;
+		box-shadow: 1px 0px 5px white;
+		padding: 2px 2px;
+		text-shadow: 1px 0px 3px black;
 	}
+	.reddish { border: none; background-color: transparent; box-shadow: none; color: lightgray; font-size: 24px; margin-top: 0;}
+	.reddish:hover { box-shadow: none; background-color: transparent; color: gray; }
 	</style>
 </head>
 <body>
-	<div class='panel-warning'>
+
+	<div style="margin-left: 15px;  float: left; padding: 15px 15px;" id="main">
+			<div class='panel' style='box-shadow: none; display: inline-block; margin-top: 50px; border: 2px solid green; '>
 	
 	<button type="button" class='primary btn-flat-danger' id='plus' style='margin-left: 30px;'>+Add Another</button>
 	<button type="button" class='primary btn-flat-blue' id="all">ADD ALL </button>
 	
-	<div style='float: right; margin-right: 10px;'>
+	<div style='float: right; margin-right: 10px; margin-top: 10px;'>
 	<b> Problems Added : </b> <span id="counter">0</span> </div>
-	<div style='float: right; margin-right: 10px;'><b>Total Problems in database : </b> <span id="total">
+	<div style='float: right; margin-right: 10px; margin-top: 10px;'><b>Total Problems in database : </b> <span id="total">
 	<?php
 		$result=mysqli_query($con,"SELECT * FROM questions");
 		$count=mysqli_num_rows($result);
@@ -48,8 +63,7 @@
 	?>
 	 </span> </div>
 	</div>
-	<div style="margin-left: 15px;  float: left; padding: 15px 15px;" id="main">
-		<div class='panel-flat' style="box-shadow: 1px 0px 10px black; margin-top: 15px; background-color: white;">
+		<div class='panel-flat' style="box-shadow: 1px 0px 10px black; margin-top: 15px; background-color: white; margin-top: 40px;">
 		<button style='float: right;' type='button' class='reddish' onclick='hideMe($(this));'> X</button>
 		<textarea   class='input-text' placeholder="Problem Statement"></textarea>
 		<textarea class="input-text op1 opt" name="op1" placeholder="Option 1"></textarea>
@@ -82,6 +96,8 @@ $(function(){
 		var txt="";
 		$("#main").children('.panel-flat').each(function(){
 			var current=$(this);
+			if(current.find(".panel-warning").html()!=undefined)
+				return;
 			var q=$(this).children('textarea').val();
 	  		var op1=$(this).children('.op1').val();
 	  		var op2=$(this).children('.op2').val();
@@ -94,10 +110,11 @@ $(function(){
   			}
   			else{
   				$.post("sessioncontrol.php",{ addproblem: "add", q: q, op1: op1, op2: op2,op3: op3,op4: op4, correct: correct},function(data){
-					current.append("<br /><div class='panel-warning'>"+data+"</div>");
+					var current1=current;
 					current=current.children('.btn-success');
 					if(data.indexOf("Added")>-1)
 					{
+						current1.append("<br /><div class='panel-warning'>"+data+"</div>");
 						current.attr('disabled','disabled');
 						current.removeClass('btn-success');
 						current.addClass("btn-default");
@@ -106,6 +123,8 @@ $(function(){
 						$('#counter').html(c);
 						$('#total').html(parseInt($('#total').html())+1);
 					}
+					else
+						current1.append("<br /><div class='panel-danger'>"+data+"</div>");
 
 				});
   			}	  		
