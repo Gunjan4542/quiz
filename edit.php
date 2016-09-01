@@ -13,7 +13,7 @@
 
 	<nav class="main-block-home">
 	<ul>
-	<li style="padding: 0 0; "><h1 class='title' style="text-shadow: 3px 3px 2px gray; height: 100%; margin-top: 7px;">Admin Panel</h1></li>
+	<li style="padding: 0 0; "><h1 class='title' style="text-shadow: 3px 3px 2px gray; ;height: 100%; margin-top: 7px;">Admin Panel</h1></li>
 	<li class="menu" onclick="location.href='admin.php';"><a href='admin.php'>Add Problem</li></a>
 	<li class="menu" style='background-color: #464040; box-shadow: 0px -4px #f0ad4e inset;'><a href="edit.php">Show All Questions</a></li>
 	<li class="menu dropdown" style="display: inline-block;" tabindex="0">More Options
@@ -39,13 +39,20 @@
 		box-shadow: 1px 0px 5px white;
 		padding: 2px 2px;
 		text-shadow: 1px 0px 3px black;
+
+	}
+	#main{margin-top: 130px;  }
+	.fixed { position: fixed; top: 10px; opacity: 1; left: 1px; }
+	@media only screen and (max-width: 900px){
+		.fixed { position: relative; top: 0; }
+		#main { margin-top: 10px; }
 	}
 	</style>
 </head>
 <body>
 
-	<div style="margin-left: 15px;  padding: 15px 15px;">
-			<div class='panel' style='background-color: white; display: inline-block; margin-top: 50px; border: 2px solid gray; width: 100%; '>
+	<div style="margin-left: 15px;  padding: 15px 15px; z-index: -1">
+			<div class='panel fixed' style='background-color: white; display: inline-block; margin-top: 50px; border: 2px solid gray; width: 100%; '>
 	<div style='float: right; margin-right: 10px; margin-top: 10px;'>
 	<div style='float: right; margin-right: 10px; margin-top: 10px;'><b>Total Problems in database : </b> <span id="total">
 	<?php
@@ -60,7 +67,7 @@
 	<button type="button" class='primary btn-warning mark_all' style='margin-left: 5px; margin-top: 3px;'>Select/Deselect ALL</button>
 	<button type="button" class='primary btn-flat-danger delete_marked' style='margin-left: 5px; margin-top: 3px;'>DELETE MARKED</button>
 	</div>
-	<div id="main" style='box-shadow: 1px 0px 10px gray; margin-top: 10px; display: block;'>
+	<div id="main" style='box-shadow: 1px 0px 10px gray;  display: block;'>
 		<?php
 			$query=mysqli_query($con,"SELECT * from questions");
 			$i=1;
@@ -78,10 +85,10 @@
 				echo "<input type='checkbox' class='mark_deleted'>(Mark to delete)";
 				echo "<input type=hidden value='".$result['id']."' class='problem_id'>";
 				echo "<textarea class='question input-text'>".$qs."</textarea>";
-				echo "<textarea class='op1 input-text opt'>".$result['op1']."</textarea>";
-				echo "<textarea class='op2 input-text opt'>".$result['op2']."</textarea>";
-				echo "<textarea class='op3 input-text opt'>".$result['op3']."</textarea>";
-				echo "<textarea class='op4 input-text opt'>".$result['op4']."</textarea>";
+				echo "<textarea class='op1 input-text opt'>".str_replace("<br />","",str_replace('&nbsp;',' ',$result['op1']))."</textarea>";
+				echo "<textarea class='op2 input-text opt'>".str_replace("<br />","",str_replace('&nbsp;',' ',$result['op2']))."</textarea>";
+				echo "<textarea class='op3 input-text opt'>".str_replace("<br />","",str_replace('&nbsp;',' ',$result['op3']))."</textarea>";
+				echo "<textarea class='op4 input-text opt'>".str_replace("<br />","",str_replace('&nbsp;',' ',$result['op4']))."</textarea>";
 				echo "<br /><span><b>Correct Option : </b> <span class='current-correct'>".$result['correct']."</span></span>";
 				echo "<b> Change Correct Option to : </b> ";
 				echo "<select class='select correct' style='width: 80px;'>
@@ -160,6 +167,27 @@ $(function(){
 		 });	
 		} );
 		alert(count+" Items saved");
+	});
+	$('.delete_marked').on('click',function(){
+		var count=0;
+		var ask=confirm("Are you sure want to delete all selected questions?");
+		if(ask){
+			$('#main').find('input[type=checkbox]:checked').each(function()
+			{
+				count++;
+				var id=$(this).parent().find('.problem_id').val();
+				var current=$(this).parent();
+				$.post("sessioncontrol.php",{ delete: "delete",id: id},function(data){ 
+					if(data.indexOf("successfully")>-1)
+					{
+						current.remove();
+						$('#total').html(parseInt($('#total').html())-1);
+					}
+				});
+			});
+		alert(count+" questions deleted successfully!");
+		sort();
+		}
 	});
 	sort();
 		function sort()

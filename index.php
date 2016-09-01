@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script src="apstyle/js/apstyle.js"></script>
 <?php
 session_name("techc");
 session_start();
@@ -13,9 +15,14 @@ if(isset($_POST['login']))
     if($ex=mysqli_query($con,"SELECT * from users WHERE uid='$uid' and password='$password'"))
     {
         $result=mysqli_fetch_assoc($ex);
+        if($result['active']==1)
+        {
+            echo "<script> alert('You are already logged in from other browser or machine'); </script>";
+        }
+        else
         if((!empty($result)) && ($result['attempt']==0))
         {
-            session_start();
+            //session_start();
             $_SESSION['uid']=$uid;
             $_SESSION['remaining']=3600; 
             $_SESSION['active']=false;
@@ -29,6 +36,13 @@ if(isset($_POST['login']))
             echo "<script> alert('Sorry!! you have already attempted the contest \\nPlease wait for the results!!'); </script>";
         else 
             echo "<script> alert('Wrong user id or password \\n Please check again!!'); </script>";
+?>
+<script>
+    $(function(){ 
+        $('#log').show();
+    });
+</script>
+<?php
     }
 }
 if(isset($_POST['register']))
@@ -38,18 +52,19 @@ if(isset($_POST['register']))
     $email=$_POST['email'];
     $year=$_POST['year'];
     $crn=$_POST['crn'];
+    $contact=$_POST['contact'];
     $password=md5($_POST['password']);
-    if(mysqli_query($con,"INSERT INTO users values('$uid','$name','$email','$year','$crn','$password',0,0,0,0,'')"))
+    if(mysqli_query($con,"INSERT INTO users values('$uid','$name','$email','$contact','$year','$crn','$password',0,0,0,0,'')"))
         echo "<script>alert('Successfully registered!!'); </script>";
     else
         echo "<script>alert('Already registered..'); </script>";
 }
 ?>
-<head>
+
     <title>Quiz</title>
 
     <meta name="viewport" content="height=device-height,initial-scale=1.0">
-    <script src="apstyle/js/apstyle.js"></script>
+    
     <link rel="stylesheet" type="text/css" href="apstyle/css/main.css">
     <link rel="stylesheet" href="tabs.css">
    <!--  <nav class="nav">
@@ -74,14 +89,44 @@ if(isset($_POST['register']))
         border: 1.5px solid red important;
     }
     .btn-default { background-color: lightgray; box-shadow: none; padding: 12px 12px; }
+    #log
+    {
+        display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,.7); /* Black w/ opacity */
+    display: none;
+    }
+    body { background-image: url('extra/pic1.jpg');
+            background-size: cover; background-position: -300px -10px; overflow: hidden; }
+    @media only screen and (max-width: 1200px){
+    body{ background-image: none !important;  }
+    #log{ display: block !important; }
+
+    }
+    .popup { overflow-y: hidden !important; }
     </style>
 </head>
 <body >
 
-        <div class="col6" style="width: 40%;"></div>
-        <div class="col4" style="margin: 10% auto;">
-            <div class="panel-flat" >
+        <button type="button" class="btn-flat-danger" style="position: absolute; top: 540px; left: 500px; " 
+        onclick="$('#log').fadeIn('slow');">Click Here »</button>
+        
+        
+        <div id="log" class="log">
+        <div class="col6" style="width: 40%; position: relative;"></div>
+        <div class="col4" style="margin: 10% auto;  position: relative;" >
+
+            <div class="panel-flat" style="border-left: 4px solid #670766; background-color: white; box-shadow: 2px 2px 10px 2px black; " id="login_block">
+                <span style="font-weight: bold; float: right; padding: 5px 5px; color: darkgray; font-family: arial; font-size: 24px; cursor: pointer;" id="expand" onclick="$('#log').fadeOut('slow')">X</span>
                 <center><h1 style="text-shadow: 5px 2px 5px gray;">LOGIN!</h1></center>
+
                 <form method="POST" action="index.php">
                 <div style=" position: relative;">
                 <input type="text" required name="uid" class="input-text" placeholder="user id" style="padding-left: 42px;">
@@ -95,10 +140,11 @@ if(isset($_POST['register']))
                 </div>
                 <center>
                 <button type="submit" class="btn-flat-blue" name="login" style="margin-left: 15px;">LOGIN</button>
-                <button type="button" class="btn-warning" data-show="#signup">REGISTER</button>
+                <button type="button" class="btn-flat-danger" data-show="#signup">REGISTER</button>
                 </center>
                 </form>
             </div>
+        </div>
         </div>
     
 <div class="popup" id="signup">
@@ -127,6 +173,11 @@ if(isset($_POST['register']))
                 <tr><td>Email Id</td>
                 <td>
                 <input type="email" class="input-text" name="email" placeholder="Email Id" required>
+                </td><td></td>
+                </tr>
+                <tr><td>Contact No</td>
+                <td>
+                <input type="text" class="input-text" name="contact" placeholder="Contact No" required>
                 </td><td></td>
                 </tr>
                 <tr><td>Year</td>
@@ -169,7 +220,6 @@ if(isset($_POST['register']))
         </div>
 </div>
 <script>
-
 $(document).ready(function(){
 $('#uid').blur(function(){
     var val=$(this).val();

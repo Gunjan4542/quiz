@@ -77,39 +77,39 @@ $(function(){
 			if(isset($_POST[$no]))
 			{
 				$ans=$_POST[$no];
-				echo "Question ".($i+1).": ".$ans.",";
+				echo "<b> Q".($i+1).") Your Answer : </b>Option ".$ans.",";
 
 				if($ans==$_SESSION['list'][$i][5])
 				{
-					echo "<b> Corrent Answer </b><br />";
+					echo "<b style='color: green;'>&#9989; Corrent Answer </b><br />";
 					$score+=2;
 				}
 				else
 				{
-					echo "<b> Wrong Answer </b><br />";
+					echo "<b style='color: #F4273F;'>&#10008; Wrong Answer </b><br />";
 					$score-=1;
 				}
 			}
 			else
-				echo "Question ".($i+1).": Not Attempted<br />";
+				echo "<b>Q".($i+1).")</b> Not Attempted<br />";
 		}
 		$id=$_SESSION['uid'];
 		mysqli_query($con,"UPDATE users SET score='$score' WHERE uid='$id'");
 		mysqli_query($con,"UPDATE users SET attempt='1' WHERE uid='$id'");
-		echo "<h1 style='color: green;'>Your Score is : $score/20 </h1>";
+		echo "<h1 style='color: green;'>Your Score is : $score/60 </h1>";
 		echo "</div>";
 		
 	}
 ?>
-<div class="panel-right panel-flat" style="box-shadow: none; background-color: white; border-left: 1px solid lightgray;">
+<div class="panel-right panel-flat" style="box-shadow: none; background-color: white; border-left: 1px solid lightgray; overflow-y: scroll;">
 <div style="border-radius: 10px; border: 1px solid lightgray; box-shadow: 0px 2px 1px gray;">
 <center>
 		<img src="extra/account.png" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid darkgray; "><br />
 		<b style="font-family: arial; font-size: 24px;"> <?php echo $_SESSION['uid']; ?> </b>
 </center>
 <form method="post" action="quiz.php">
-<button type="submit" name="logout" class="logmeOut btn-flat-blue fulldock" onclick="localStorage.clear();" style="padding: 5px 5px; box-shadow: none;">
-<img src="extra/logout.png" style="height: 20px; width: 20px;">
+<button type="submit" name="logout" class="logmeOut btn-flat-blue fulldock" onclick="localStorage.clear();" style="padding: 5px 5px; box-shadow: none; ">
+<img src="extra/logout.png" style="height: 20px; width: 20px; -webkit-filter: contrast(160%); filter: contrast(160%);">
 logout</button>
 <br /> 
 </form>
@@ -118,7 +118,7 @@ logout</button>
 <div class="panel-light" style="background-color: white; box-shadow: none; color: black; border: none;" >
 		<div style="border-radius: 10px; border: 1px solid lightgray; box-shadow: 0px 2px 1px gray;">
 		<center>
-		<h1> Time Left  </h1><hr /><h1 id="time">10:00 </h1>
+		<h1> Time Left  </h1><hr /><h1 id="time" ><span style=' border-radius: 7px; box-shadow: 0px 3px 10px gray; color: orange;'>10</span>:<span style=' border-radius: 7px; box-shadow: 0px 3px 10px gray; color: orange;'>00 </span></h1>
 		</center>
 		</div>
 		<br />
@@ -144,6 +144,34 @@ logout</button>
 </div>
 </div>
 </div>
+<!-- code for instruction popup -->
+<div class="popup" id="instruction" style="z-index: 99;">
+ <div class="popup-content" style="margin-top: 5%; max-width: 500px;" tabindex="0">
+            <div class="popup-head" style="background-color: #E9E4E1; color: black; border-bottom: 3px solid #A19F9D;">
+                <span class="popup-close"><b>X</b></span>
+                <center><h3>Instructions </h3></center>
+            </div>
+            <div class="popup-body" style="margin-top: 0px; " >
+            	<ul>
+            		<li>This is a MCQ based quiz.After clicking the start button,30 questions will appear and counter will start. You have 60 minutes of time for this contest.After 60 minutes, the counter will stop and all the answers will be submited automatically.</li>
+            		<li>For each correct answer, +2 points will be rewarded and for every wrong answer, 1 point will be deducted. So be careful before attempting any question</li>
+            		<li>At any instance of time, you can finish your attempt by clicking submit and then finish, or you can see status about attempted/unattended questions by clicking status button.Please check all the questions before final submission.</li>
+            		<li>Once you have finished your quiz, the score will be displayed on the screen. </li>
+            		<li> After everything,Please logout and wait for your rank. Please ask the coordinator for the leaderboard.</li>
+            		<li>ALL THE BEST!!!!!! </li>
+
+            	</ul>
+            	<br />
+            	<div class='popup-footer' style='height: 50px;'>
+                <button style="float: right;" type="button" class="btn-flat-danger" data-close="#instruction">CLOSE</button>
+
+                </center>
+                </div>
+            </div>
+  </div>
+</div>
+<!-- end of section -->
+
 <div class="popup" id="over" style="z-index: 99;">
  <div class="popup-content" style="margin-top: 5%; max-width: 400px;" tabindex="0">
             <div class="popup-head" style="background-color: #E9E4E1; color: black; border-bottom: 1px solid #A19F9D;">
@@ -171,12 +199,13 @@ for($i=0;$i<$no_of_problems;$i++)
 {
 	$name=$i;
 	echo "<div class='panel-flat' style='float: none; display: block; margin-top: 10px; margin-left: 10px; box-shadow: none;' id=$i>";
-	echo "<b>". ($i+1).") ".$_SESSION['list'][$i][0]." </b><br/ >";
-	echo "<input type=radio name=$name value=1 class='opt1'> ".$_SESSION['list'][$i][1];
+	echo "<button  style='float: right;' class='reddish undo' type='button' data-clear=$name>UNDO</button>";
+	echo "<b >". ($i+1).")".$_SESSION['list'][$i][0]."</b>";
+	echo "<br /><input type=radio name=$name value=1 class='opt1'> ".$_SESSION['list'][$i][1];
 	echo "<br /><input type=radio name=$name value=2 class='opt2'> ".$_SESSION['list'][$i][2];
 	echo "<br /><input type=radio name=$name value=3 class='opt3'> ".$_SESSION['list'][$i][3];
 	echo "<br /><input type=radio name=$name value=4 class='opt4'> ".$_SESSION['list'][$i][4];
-	echo "<button class='reddish undo' type='button' data-clear=$name>UNDO</button>";
+	
 	echo "</div>";
 
 }
@@ -240,6 +269,8 @@ echo "</div>";
 
 <script>
 	$(function(){
+
+		$('#instruction').show();
 		$('#start').click(function(){
 		    $(this).attr('disabled','disabled');
 		    $('.logmeOut').attr('disabled','disabled');
@@ -248,13 +279,13 @@ echo "</div>";
 		    $(this).removeClass("btn-success");
 		    $(this).addClass("btn-default");
 		    $('#start').css('box-shadow','none');
-		    $('#main').slideDown();
+		    $('#main').show();
 		    $('#jump').show();
 		    $.post("sessioncontrol.php",{set_active: "Active"},function(data){
-		    	
+		    	setInterval(countdown,1000);
+		    	location.reload();
 		    });
-		    setInterval(countdown,1000);
-		    location.reload();
+		    
 		    //setInterval(getScore,1000);
 		});
 		$('.undo').click(function(){
@@ -358,6 +389,9 @@ $.post("sessioncontrol.php",{gettime: "Active"},function(data){
 	$('#start').css('box-shadow','none');
 	setInterval(countdown,1000);
 	//setInterval(getScore,1000);
+	$(function(){ 
+		$('#instruction').hide();
+	});
 </script>
 	<?php
 }
@@ -366,6 +400,7 @@ if(isset($_SESSION['flag']) and ($_SESSION['flag']>=1) )
 	?>
 <script>
 $(function(){ 
+	$('#instruction').hide();
 	$('#start').attr('disabled','disable');
 	$('#start').removeClass("btn-success");
 	$('#start').addClass("btn-default");

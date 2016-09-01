@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 28, 2016 at 06:44 PM
+-- Generation Time: Aug 31, 2016 at 11:27 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -30,6 +30,7 @@ CREATE TABLE `users` (
   `uid` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
+  `contact` varchar(10) NOT NULL,
   `year` int(11) NOT NULL,
   `crn` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,

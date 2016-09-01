@@ -6,6 +6,7 @@ function countdown()
 {
     if(m<0)
     {
+            $('#submit').trigger('click');
             document.getElementById('time').innerHTML="00:00";
             $('.tab').hide();
             $('.tabcontent').fadeOut('slow');
@@ -35,7 +36,7 @@ function countdown()
         var str="";
         var min=m<10?"0"+m:m;
         var sec=s<10?"0"+s:s;
-        str+="<span style='background-color: black; color: white'>"+min+"</span>"+":"+"<span style='background-color: black; color: white'>"+sec+"</span>";
+        str+="<span style=' border-radius: 7px; box-shadow: 0px 3px 10px gray; color: orange;'>"+min+"</span>"+":"+"<span style=' border-radius: 7px; box-shadow: 0px 3px 10px gray; color: orange;'>"+sec+"</span>";
         document.getElementById('time').innerHTML=str;
         s--;
 }

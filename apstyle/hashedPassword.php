@@ -14,7 +14,10 @@
 	if(isset($_POST['password']))
 	{
 		echo "<b> Encrypted Password: </b>";
-		echo md5($_POST['password']);
+	$clearTextPassword = $_POST['password'];
+	$password = crypt($clearTextPassword, standard_salt());
+	echo $password;
+		echo $password;
 	}
 
 ?>

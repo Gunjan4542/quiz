@@ -20,6 +20,20 @@ b { margin-top: 1px; margin-bottom: 1px; margin-left: 2px; margin-right: 2px;}
 xmp {  margin-top: 1px;font-family: Arial; font-size: 12pt; margin-bottom: 1px;
 	word-wrap: break-word;
 }
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
 /* button styles */
 /*------------------------------------------------------------------------------------------ */
 
@@ -655,7 +669,7 @@ input[type=search]:focus { box-shadow: 1px 0px 3px 1px black inset,1px 0px 10px 
 {
   background-color:  #FA7828;
   padding:  15px 15px;
-  box-shadow: 0 0 10px 1px gray,0 -5px 10px  #FA5E0A inset;
+  box-shadow: 0 0 10px 1px gray,0 -10px 4px  #FA5E0A inset;
   border: 0 solid;
   color :  white;
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -672,6 +686,19 @@ input[type=search]:focus { box-shadow: 1px 0px 3px 1px black inset,1px 0px 10px 
 {
 	background-color:  #FA6305;
 }
+textarea
+{
+  margin-bottom: 5px;
+  font-size: 15px;
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px 10px;
+  border:  1px solid #A19F9D;
+}
+textarea:focus
+{
+  transition: 0;
+}
 .input-text
 {
   margin-bottom: 5px;
@@ -683,9 +710,15 @@ input[type=search]:focus { box-shadow: 1px 0px 3px 1px black inset,1px 0px 10px 
 }
 .input-text:focus
 {
-  transition: all init ll 2s ;
-  box-shadow: 0 0 10px #1487EC;
-  border: 1px solid #1475CA;
+  transition: all 0.3s ease-in-out;
+  /* box-shadow: 0 0 10px #1487EC; */
+
+border-radius: 0;
+  /* border: 1px solid #1475CA; */
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 0px;
+  box-shadow: 0 3px 0px blue;
 }
 .left-margin
 {
@@ -711,6 +744,8 @@ input[type=search]:focus { box-shadow: 1px 0px 3px 1px black inset,1px 0px 10px 
 @media only screen and (max-width: 1000px) {
     .col6 { width: 99%;}
     .col8 { width: 99%;}
+    .log{ display: block; }
+    body { background-image: none; }
 }
 @media only screen and (max-width: 800px){
 .col4 { width: 42%;}
@@ -730,6 +765,7 @@ input[type=text],input[type=email],input[type=password] {
 	}
 }
 @media only screen and (max-width: 600px){
+  body{ background-image: none !important;  }
 .col4{ width: 97%; margin: 5px;}
 .col6{ width: 97%; margin: 5px;}
 .col2{ width: 97%; margin: 5px;}

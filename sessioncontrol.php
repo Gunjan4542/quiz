@@ -9,6 +9,7 @@ if(isset($_POST['set_active']))
 	$query=mysqli_query($con,"SELECT question,op1,op2,op3,op4,correct FROM questions ORDER BY rand() LIMIT 13");
 	while($arr=mysqli_fetch_array($query))
 	{
+		// $arr[0]=str_replace(">", '&gt; ',$arr[0]);
 		array_push($_SESSION['list'], $arr);
 	}
 	$_SESSION['flag']=0;
@@ -27,11 +28,16 @@ if(isset($_POST['gettime']))
 }
 if(isset($_POST['addproblem']))
 {
-	$question=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['q'])));
-	$op1=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['op1'])));
-	$op2=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['op2'])));
-	$op3=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['op3'])));
-	$op4=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['op4'])));
+	$question=htmlspecialchars( $_POST['q']);
+	$op1=htmlspecialchars($_POST['op1']);
+	$op2=htmlspecialchars($_POST['op2']);
+	$op3=htmlspecialchars($_POST['op3']);
+	$op4=htmlspecialchars($_POST['op4']);
+	$question=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$question)));
+	$op1=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$op1)));
+	$op2=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$op2)));
+	$op3=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$op3)));
+	$op4=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$op4)));
 	$correct=$_POST['correct'];
 	if(empty($question) or empty($op1) or empty($op2) or empty($op3) or empty($op4))
 		die("Please Fill All the fields");
@@ -43,11 +49,16 @@ if(isset($_POST['addproblem']))
 if(isset($_POST['edit']))
 {
 	$id=$_POST['id'];
-	$question=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['q'])));
-	$op1=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['op1'])));
-	$op2=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['op2'])));
-	$op3=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['op3'])));
-	$op4=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$_POST['op4'])));
+	$question=htmlspecialchars( $_POST['q']);
+	$op1=htmlspecialchars($_POST['op1']);
+	$op2=htmlspecialchars($_POST['op2']);
+	$op3=htmlspecialchars($_POST['op3']);
+	$op4=htmlspecialchars($_POST['op4']);
+	$question=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$question)));
+	$op1=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$op1)));
+	$op2=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$op2)));
+	$op3=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$op3)));
+	$op4=mysqli_real_escape_string($con,nl2br(str_replace(' ', '&nbsp;',$op4)));
 	$correct=$_POST['correct'];
 	if(empty($question) or empty($op1) or empty($op2) or empty($op3) or empty($op4))
 		die("Please Fill All the fields");

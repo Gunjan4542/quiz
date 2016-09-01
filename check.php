@@ -7,9 +7,9 @@ if(isset($_POST['uid']))
 	$query="SELECT uid FROM users WHERE uid='$uid'";
 	$result=mysqli_fetch_assoc(mysqli_query($con,$query));
 	if(!empty($result))
-		echo "<span style='color: red;  font-size: 24px; font-family: arial;'>X</span>";
+		echo "<span style='color: #F4273F;  font-size: 24px; font-family: arial;'>X</span>";
 	else
-		echo "<b style='color: darkblue; font-size: 24px;'>&#10004;</b>";
+		echo "<b style='color: green; font-size: 24px;'>&#10004;</b>";
 }
 
 ?>
