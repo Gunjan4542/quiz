@@ -6,7 +6,7 @@ if(isset($_POST['set_active']))
 {
 	$_SESSION['list']=array();
 
-	$query=mysqli_query($con,"SELECT question,op1,op2,op3,op4,correct FROM questions ORDER BY rand() LIMIT 13");
+	$query=mysqli_query($con,"SELECT question,op1,op2,op3,op4,correct FROM questions ORDER BY rand() LIMIT 30");
 	while($arr=mysqli_fetch_array($query))
 	{
 		// $arr[0]=str_replace(">", '&gt; ',$arr[0]);

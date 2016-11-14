@@ -1,7 +1,7 @@
-var m=10;
-var s=00;
+var m=60; // add time in minutes here
+var s=00; // add seconds
 var flag=false;
-var sourcelimit=1024;
+//var sourcelimit=1024;
 function countdown()
 {
     if(m<0)
@@ -24,7 +24,7 @@ function countdown()
             flag=true;
             $('#myPopup').show();
             $('#main').show();
-            $('#submit').trigger('click');
+            $('#submit').click();
         }
         return;
     }

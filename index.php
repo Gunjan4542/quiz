@@ -177,7 +177,7 @@ if(isset($_POST['register']))
                 </tr>
                 <tr><td>Contact No</td>
                 <td>
-                <input type="text" class="input-text" name="contact" placeholder="Contact No" required>
+                <input type="text" class="input-text" maxlength="10" name="contact" placeholder="Contact No" required>
                 </td><td></td>
                 </tr>
                 <tr><td>Year</td>

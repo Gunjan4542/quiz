@@ -2,7 +2,7 @@
 <html>
 <?php
 require_once "connection.php";
-$no_of_problems=13;
+$no_of_problems=30;
 session_name("techc");
 session_start();
 if(isset($_POST['logout'])){
@@ -82,11 +82,11 @@ $(function(){
 				if($ans==$_SESSION['list'][$i][5])
 				{
 					echo "<b style='color: green;'>&#9989; Corrent Answer </b><br />";
-					$score+=2;
+					$score+=3;
 				}
 				else
 				{
-					echo "<b style='color: #F4273F;'>&#10008; Wrong Answer </b><br />";
+					echo "<b style='color: #F4273F; font-family: Arial;'>X Wrong Answer </b><br />";
 					$score-=1;
 				}
 			}
@@ -96,7 +96,7 @@ $(function(){
 		$id=$_SESSION['uid'];
 		mysqli_query($con,"UPDATE users SET score='$score' WHERE uid='$id'");
 		mysqli_query($con,"UPDATE users SET attempt='1' WHERE uid='$id'");
-		echo "<h1 style='color: green;'>Your Score is : $score/60 </h1>";
+		echo "<h1 style='color: green;'>Your Score is : $score/90 </h1>";
 		echo "</div>";
 		
 	}
@@ -118,7 +118,7 @@ logout</button>
 <div class="panel-light" style="background-color: white; box-shadow: none; color: black; border: none;" >
 		<div style="border-radius: 10px; border: 1px solid lightgray; box-shadow: 0px 2px 1px gray;">
 		<center>
-		<h1> Time Left  </h1><hr /><h1 id="time" ><span style=' border-radius: 7px; box-shadow: 0px 3px 10px gray; color: orange;'>10</span>:<span style=' border-radius: 7px; box-shadow: 0px 3px 10px gray; color: orange;'>00 </span></h1>
+		<h1> Time Left  </h1><hr /><h1 id="time" ><span style=' border-radius: 7px; box-shadow: 0px 3px 10px gray; color: orange;'>45</span>:<span style=' border-radius: 7px; box-shadow: 0px 3px 10px gray; color: orange;'>00 </span></h1>
 		</center>
 		</div>
 		<br />
@@ -153,8 +153,8 @@ logout</button>
             </div>
             <div class="popup-body" style="margin-top: 0px; " >
             	<ul>
-            		<li>This is a MCQ based quiz.After clicking the start button,30 questions will appear and counter will start. You have 60 minutes of time for this contest.After 60 minutes, the counter will stop and all the answers will be submited automatically.</li>
-            		<li>For each correct answer, +2 points will be rewarded and for every wrong answer, 1 point will be deducted. So be careful before attempting any question</li>
+            		<li>This is a MCQ based quiz.After clicking the start button,30 questions will appear and counter will start. You have 45 minutes of time for this contest.After 60 minutes, the counter will stop and all the answers will be submited automatically.</li>
+            		<li>For each correct answer, +3 points will be rewarded and for every wrong answer, 1 point will be deducted. So be careful before attempting any question</li>
             		<li>At any instance of time, you can finish your attempt by clicking submit and then finish, or you can see status about attempted/unattended questions by clicking status button.Please check all the questions before final submission.</li>
             		<li>Once you have finished your quiz, the score will be displayed on the screen. </li>
             		<li> After everything,Please logout and wait for your rank. Please ask the coordinator for the leaderboard.</li>
@@ -328,7 +328,7 @@ echo "</div>";
 			// });
 			var i=1;
 			var arr=[];
-			for(var i=0;i<13;i++)
+			for(var i=0;i<30;i++)
 			{
 				arr.push(false);
 			}
@@ -338,7 +338,7 @@ echo "</div>";
   				arr[no-1]=true;
 			});
 			$('#submission_status').append("<br /><b>Not Attempted : </b>");
-			for(var i=0;i<13;i++)
+			for(var i=0;i<30;i++)
 			{ 
 				if(!arr[i])
 				{
@@ -357,7 +357,7 @@ echo "</div>";
 		 	var id="#"+$(this).parent().attr('id');
 		 	localStorage[id] = $(this).attr('class');
 		 });
-		 for(var i=0;i<13;i++)
+		 for(var i=0;i<30;i++)
 		 {
 		 	var id="#"+i;
 		 	$(id).find("."+localStorage[id]).attr('checked','checked');
@@ -378,7 +378,7 @@ $('.logmeOut').addClass('btn-default');
 $('.logmeOut').css('box-shadow','none');
 
 $.post("sessioncontrol.php",{gettime: "Active"},function(data){
-				var time_in_second=600; // add your desired time in seconds
+				var time_in_second=3600; // add your desired time in seconds
 				var time=time_in_second-data;
 		     	m=Math.floor(time/60);
 				 s=time%60;
